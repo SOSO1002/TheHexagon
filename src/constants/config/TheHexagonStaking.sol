@@ -1,0 +1,148 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.9;
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+
+contract TheHexagonNFTStaking is IERC721Receiver, Ownable, Pausable {
+
+    address internal constant addrHoneyToken = 0x14F684e182e594Ba065cBdcbeF8a6091a317160A;
+    address internal constant addrBeeToken = 0x2F3934532461cFda7aB48FF0e35BdeC360757614;
+    IERC20  internal honeyContract;
+    ERC721  internal beeContract;
+
+    struct Stake {
+        uint256 startTime;
+        uint256 lockTimeMode;
+        bool    isLocked;
+    }
+
+    mapping(uint256=>Stake) internal stakeOfTokenId;
+    mapping(address=>uint256[]) internal tokenIdOf;
+    mapping(uint256=>uint256) internal tokenIndexOfId;
+    mapping(address=>mapping(uint256=>bool)) internal isTokenStaking;
+    mapping(uint256=>uint256) internal salaryOfMode;
+    mapping(uint256=>uint256) internal lowPercentOfMode;
+
+    mapping(uint256=>uint256) internal stolenOf;
+    mapping(uint256=>uint256) internal winbackOf;
+
+    uint256 private totalYield;
+    uint256 private totalStolen;
+    uint256 private totalWinback;
+    
+    ////////////////////////////////////////////////////////////
+    
+    constructor() {
+        honeyContract = IERC20(addrHoneyToken);
+        beeContract = ERC721(addrBeeToken);
+        salaryOfMode[10] = 5 ether;
+        salaryOfMode[30] = 7 ether;
+        lowPercentOfMode[10] = 15;
+        lowPercentOfMode[30] = 13;
+    }
+
+    function setTokenContract(address _addrHoneyToken, address _addrBeeToken) external onlyOwner {
+        honeyContract = IERC20(_addrHoneyToken);
+        beeContract = ERC721(_addrBeeToken);
+    }
+
+    function deposit(uint256 _tokenId, uint256 _lockTimeMode) public {
+        require(_tokenId <= 6666, "This beeToken is not worker"); //pro
+        // require(_tokenId <= 4, "This beeToken is not worker");
+        require(isTokenStaking[msg.sender][_tokenId] == false, "Already Staking Token");
+        require(beeContract.ownerOf(_tokenId)==msg.sender, "This is not your token");
+        stakeOfTokenId[_tokenId] = Stake(block.timestamp, _lockTimeMode, true);
+        tokenIndexOfId[_tokenId] = tokenIdOf[msg.sender].length;
+        tokenIdOf[msg.sender].push(_tokenId);
+        isTokenStaking[msg.sender][_tokenId] = true;
+        beeContract.safeTransferFrom(msg.sender, address(this), _tokenId);
+    }
+
+    function withdraw(uint256 _tokenId) public {
+        require(isTokenStaking[msg.sender][_tokenId], "OnlyStaking: this bee isn't staking");
+        // TEST_BELOW_LINE
+        require(beeContract.ownerOf(_tokenId)==address(this), "This is not my staking token");
+        require(getDays(stakeOfTokenId[_tokenId].startTime, block.timestamp) > stakeOfTokenId[_tokenId].lockTimeMode, "cannot Unlock");
+        uint256 earned = calcEarned(_tokenId);
+        tokenIdOf[msg.sender][tokenIndexOfId[_tokenId]] = tokenIdOf[msg.sender][tokenIdOf[msg.sender].length-1];
+        tokenIdOf[msg.sender].pop();
+        tokenIndexOfId[_tokenId] = 0;
+        stakeOfTokenId[_tokenId].isLocked = false;
+        isTokenStaking[msg.sender][_tokenId] = false;
+        // TRUST_BELOW_LINE
+        beeContract.safeTransferFrom(address(this), msg.sender, _tokenId);
+        
+        uint256 lo = lowPercentOfMode[stakeOfTokenId[_tokenId].lockTimeMode];
+        uint256 robbed = earned*getRandom(lo, lo+5)/100;
+        uint256 yield = earned - robbed;
+        uint256 stolen = robbed * 65 / 100;
+        uint256 winback = robbed - stolen;
+        
+        totalYield = totalYield + yield;
+        totalStolen = totalStolen + stolen;
+        totalWinback = totalWinback + winback;
+        
+        honeyContract.transfer(msg.sender, earned);
+    }
+
+    function claim(uint256 _tokenId) public {
+        require(beeContract.ownerOf(_tokenId)==msg.sender, "This is not your token");
+        uint256 amount;
+        if (_tokenId > 6666 && _tokenId <=8888) { // Case of gang
+            amount = totalStolen - stolenOf[_tokenId];
+            amount = amount / 2222;
+            stolenOf[_tokenId] = totalStolen;
+        }
+        else if (_tokenId > 8888 && _tokenId <=9999) {  // Case of army
+            amount = totalWinback - winbackOf[_tokenId];
+            amount = amount / 1111;
+            winbackOf[_tokenId] = totalWinback;
+        }
+        honeyContract.transfer(msg.sender, amount);
+    }
+
+    function calcEarned(uint256 _tokenId) public view returns(uint256) {
+        require(isTokenStaking[msg.sender][_tokenId], "OnlyStaking: this bee isn't staking");
+        uint256 day = getDays(stakeOfTokenId[_tokenId].startTime, block.timestamp);
+        uint256 mode = stakeOfTokenId[_tokenId].lockTimeMode;
+        if (day >= mode) day = mode;
+        return (day * salaryOfMode[mode]);
+    }
+
+    function getDays(uint256 from, uint256 to) public pure returns (uint256) {
+        require(to >= from, "TheHexagonNFTStaking: timeError");
+        uint256 res = (to - from) * 10**18;
+        // Comment this for test
+        res = res / 86400;
+        res = res / 10**18;
+        return res;
+    }
+
+    function getRandom(uint256 lo, uint256 hi) public view returns (uint256) {
+        if (lo > hi) 
+            (lo, hi) = (hi, lo);
+        return uint256(
+            keccak256(
+                abi.encodePacked(
+                    msg.sender,
+                    block.difficulty,
+                    block.timestamp
+                )
+            )
+        ) % (hi - lo + 1) + lo;
+    }
+
+    function onERC721Received(address, address, uint256, bytes memory) public virtual override returns (bytes4) {
+        return this.onERC721Received.selector;
+    }
+    
+    ///////////////// For Test ///////////////////////////////////
+    function getTokenNumOf() public view returns(uint256) { return tokenIdOf[msg.sender].length; }
+    function getLockMode(uint256 _tokenId) public view returns(uint256) { return stakeOfTokenId[_tokenId].lockTimeMode; }
+    function getStartTime(uint256 _tokenId) public view returns(uint256) { return stakeOfTokenId[_tokenId].startTime; }
+    function getGangClaimed(uint256 _tokenId) public view returns(uint256) { return stolenOf[_tokenId]; }
+    function getArmyClaimed(uint256 _tokenId) public view returns(uint256) { return winbackOf[_tokenId]; } 
+}

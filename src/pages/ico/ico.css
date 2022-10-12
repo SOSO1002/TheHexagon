@@ -1,0 +1,274 @@
+.ico-banner {
+  height: 90vh;
+  color: #FFF;
+  z-index: 6;
+  padding-top: 5.125rem;
+  background: -webkit-gradient(linear,left top,right top,from(#A34FFE),to(#5934FC));
+}
+.ico-banner::after {
+    content: '';
+    background: url(../../assets/ico-banner.png) center right no-repeat;
+    height: 436px;
+    width: 899px;
+    position: absolute;
+    right: 0;
+    top: 30%;
+}
+.ico-banner-container {
+  width:90%;
+  margin:0 auto;
+}
+.ico-banner-control {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.ico-banner-control-left {
+  /* width:60%; */
+}
+.ico-banner-control-left h1{
+  color: #FFF;
+  font-size: 2.8125rem;
+  font-weight: 700;
+  font-family: sans-serif;
+}
+
+.ico-banner-control-left h3 {
+  font-weight: 300;
+  color: #FFF;
+  font-size: 2rem;
+  font-family: sans-serif;
+  margin-top:30px;
+}
+.ico-banner-progress {
+  position: relative;
+  margin-top:20px
+}
+.ico-banner-progress li {
+  list-style-type: none;
+}
+.progres-area-py-5 {
+  padding-bottom: 3rem!important;
+  padding-top: 3rem!important;
+}
+.progress-bars {
+  position: absolute;
+  top: 1.9rem;
+  display: flex;
+  -webkit-box-align: stretch;
+  align-items: stretch;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  color: #FFF;
+  padding: 0 1rem;
+}
+.progress-main {
+  background: #FFF;
+  border: 4px solid #FFF;
+  border-radius: 1rem;
+  height: 1.875rem;
+  overflow: initial;
+}
+.progress-bar-custom {
+  border-radius: 1rem;
+  height: 1.36rem;
+  background: linear-gradient(to right,#FF4137,#FDC800);
+      box-shadow: 2px 0 7px 0 rgb(0 0 0 / 35%);
+}
+.progress-bottom {
+  position: absolute;
+  bottom: 0.8rem;
+  display: flex;
+  color: #FFF;
+  -webkit-box-align: stretch;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 1rem;
+}
+.btn-gradient-orange.btn-glow {
+  box-shadow: 0 0 12px 0 #ff5f2b;
+}
+.btn.btn-round {
+  border-radius: 2rem;
+}
+.btn-gradient-orange {
+  background-image: linear-gradient(40deg,#FF4137 20%,#FDC800 51%,#FF4137 90%);
+  background-position: left center;
+  background-size: 200% auto;
+  border: 0;
+  color: #FFF;
+  transition: .5s;
+}
+.crypto-links {
+  padding-top: 0.8rem;
+}
+.crypto-links li {
+    display: inline;
+    padding: 0 0.6rem;
+}
+.ico-banner-control-right {
+  /* width:40%; */
+}
+.logo-wrapper {
+  width: 25.35rem;
+  height: 25.35rem;
+  background-color: #FFF;
+  border-radius: 20rem;
+}
+.purchase-token-btn {
+  text-align: center;
+  margin-top: 30px;
+}
+.btn-gradient-orange:hover {
+    background-position: right center;
+    text-decoration: none;
+    color: #FFF;
+}
+.pl-5, .px-5 {
+    padding-left: 3rem!important;
+}
+.logo-wrapper .crypto-logo {
+    z-index: 1;
+    position: relative;
+    width: 22.87rem;
+    height: 22.87rem;
+    background: radial-gradient(circle,#FDC800,#FF4137);
+    top: 1.25rem;
+    left: -1.75rem;
+    border-radius: 20rem;
+    box-shadow: -2px 3px 26px 0 #ff4137;
+}
+.logo-wrapper .crypto-logo .crypto-logo-img {
+    position: absolute;
+    left: 25%;
+    top: 21%;
+    width: 50%;
+}
+.modal-main {
+  background:#7718b3eb;
+  max-width:500px
+}
+.amount-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.amount-layer p {
+  margin:0;
+  font-size: 25px;
+  font-weight: 600;
+  color:white
+}
+.amount-layer input {
+ width: 50%;
+  margin: 0 30px;
+  border: 1px solid #210321;
+  background: transparent;
+  border-radius: 8px;
+  outline: none;
+  text-align: right;
+  padding:10px 5px;
+  color:white
+}
+.price-layer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+.price-layer p {
+  font-size: 25px;
+  font-weight: 600;
+  color:white
+}
+.price-layer img {
+  width: 28px;
+  margin-left:10px
+}
+.modal-purchase {
+  text-align: center;
+}
+
+
+.bg-ripple-animation {
+    overflow: hidden;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    left: 0;
+}
+.top-right-ripples {
+  margin-top: -80vh;
+  margin-right: -80vh;
+  width: 160vh;
+  height: 160vh;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.ripples {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+.ripples:before {
+  background: radial-gradient(ellipse at center,rgba(182,225,235,0) 0,rgba(182,225,235,.05) 40%,rgba(182,225,235,.4) 100%);
+  border: 0.5px solid #fff;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(1);
+  -webkit-animation-name: k1;
+  animation-duration: 6s;
+  animation-delay: 0s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  content: '';
+  top: 0;
+}
+
+@media (max-width:1200px) {
+  .ico-banner {
+    height: auto;
+    padding: 50px 0px;
+  }
+  .ico-banner-control-left,.ico-banner-control-right {
+    width:100%;
+  }
+  .ico-banner-control-left {
+    text-align: center;
+  }
+  .ico-banner-control-right{
+    order:-1
+  }
+  .logo-wrapper {
+      margin: 1rem auto 0!important;
+      width: 15.35rem;
+      height: 15.35rem;
+      border-radius: 10rem;
+  }
+  .logo-wrapper .crypto-logo {
+      width: 13.87rem;
+      height: 13.87rem;
+      border-radius: 10rem;
+      top: 0.75rem;
+      left: -2.25rem;
+  }
+}
+@media(max-width:450px) {
+  .ico-banner-control-left h1 {
+    font-size: 30px;
+    margin-top: 20px;
+  }
+  .ico-banner-control-left h3 {
+    font-size:25px;
+  }
+}

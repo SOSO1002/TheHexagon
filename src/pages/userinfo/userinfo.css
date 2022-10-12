@@ -1,0 +1,80 @@
+.userinfo-banner {
+   background : url(../../assets/staking_banner.png);
+  background-size:cover;
+  background-position:left bottom;
+  height: 360px;
+  position: relative;
+  z-index: -1;
+}
+.edit-profile {
+  position: absolute;
+  right: 50px;
+  top: 35px;
+  border-radius: 4px;
+  background: #f6990cba;
+  border: 1px solid #f5c819;
+}
+.userinfo-main {
+  background: #272727e0;
+  width: 90%;
+  margin: -213px auto 50px;
+  border-radius: 15px;
+}
+.userinfo-container {
+  width:90%;
+  margin: 0 auto;
+}
+.userinfo-control {
+  padding: 30px 0px;
+}
+.userinfo-top {
+  display: flex;
+  align-items: center;
+}
+.userinfo-image {
+  width:30%;
+  border: 5px solid #ef8f0f;
+  border-radius: 8px;
+
+}
+.userinfo-image img {
+  width:100%
+}
+.your-nameaddress {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 50px;
+  color:#ef8f0f
+}
+.your-nameaddress p {
+  font-size: 20px;
+  font-weight: 600;
+}
+.your-nameaddress .address {
+  margin-left:35px;
+}
+.userinfo-tab {
+  margin-top:35px;
+}
+.userinfo-tab ul {
+  display: flex;
+}
+.userinfo-tab ul li {
+  list-style-type:none;
+  margin: 0 20px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: 400;
+}
+.tab-active,.tab-active:hover {
+  color:#ef8f0f
+}
+.tab-passive,.tab-passive:hover {
+  color:white
+}
+@media(max-width:600px) {
+  .userinfo-banner {
+    background:url(../../assets/staking_mb.png);
+    background-size: 100% 100%;
+  }
+}

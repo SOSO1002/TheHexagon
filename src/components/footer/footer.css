@@ -1,0 +1,292 @@
+.footer-section {
+  background: black;
+}
+
+.footer-container {
+  padding: 20px 30px;
+}
+
+.footer-top {
+  display: flex;
+  align-items: center;
+  padding: 100px 50px;
+}
+
+.footer-top-left {
+  display: flex;
+  background: #272727;
+  justify-content: center;
+  padding: 40px 0px 40px 25px;
+  width: 45%;
+  border-radius: 20px;
+}
+
+.footer-top-left h2 {
+  font-weight: 800;
+  margin-left: 3%;
+  font-size: 20px;
+}
+
+.footer-partone,
+.footer-parttwo {
+  width: 50%;
+}
+
+.footer-logo img {
+  width: 15%;
+}
+
+.footer-metamask img {
+  width: 10%;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  color: white
+}
+
+.footer-token {
+  display: flex;
+  align-items: center;
+}
+
+.footer-token img {
+  width: 15%;
+}
+
+.bee-count {
+  margin-left: 62px;
+  color: white;
+  font-size: 19px;
+  display: grid;
+}
+
+.bee-count p,
+.footer-token p {
+  margin: 5px 0;
+}
+
+.footermint {
+  width: max-content;
+  border-radius: 15px;
+  border: none;
+  background: yellow;
+  font-size: 19px;
+  margin-top: 20px;
+  padding: 10px 20px;
+}
+
+.buyhoney {
+  padding: 10px;
+  margin-top: 20px;
+  width: max-content;
+  border-radius: 15px;
+  border: none;
+  background: yellow;
+  font-size: 16px;
+}
+
+.footer-parttwo {
+  color: white;
+}
+
+.footer-parttwo div p:last-child {
+  font-size: 20px;
+  margin-left: 25px;
+}
+
+.exchange {
+  display: flex;
+  align-items: baseline;
+}
+
+/* .opennew{
+  height: 11px;
+  width: 20px;
+  background: linear-gradient(blue, #0e0d0d);
+  margin-left: 15px;
+  border-radius: 4px;
+} */
+.footer-top-right {
+  margin-left: 100px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 20px;
+  width: 45%;
+  color: white;
+}
+
+.footer-top-right p {
+  cursor: pointer;
+}
+
+.footer-top-right a {
+  text-decoration: none;
+  color: white;
+}
+
+.social-top-group,
+.social-bottom-group {
+  display: flex;
+  justify-content: center;
+}
+
+.social-top-group a,
+.social-bottom-group a {
+  cursor: pointer;
+}
+
+.social-bottom-group {
+  margin-top: 15px
+}
+
+.social-image {
+  width: 30px;
+  height: 30px;
+  margin: 0 8px;
+}
+
+.social-image img {
+  width: 100%;
+}
+
+/* .social-group li{
+  list-style-type: none;
+  margin: 0 20px;
+}
+.social-group a {
+  font-size: 15px;
+} */
+.footer-bottom {
+  text-align: center;
+  color: white;
+}
+
+
+.icon {
+  color: white;
+}
+
+.icon-group {
+  display: flex;
+}
+
+.icon-group li {
+  list-style-type: none;
+  margin: 0 10px;
+}
+
+.soon {
+  font-size: 13px;
+  margin-left: 5px;
+  background: #2626c1;
+  border-radius: 10px;
+  padding: 0px 3px;
+  color: white
+}
+
+@media(max-width:1280px) {
+  .footer-top-left {
+    width: 60%;
+  }
+
+  .footer-parttwo div p:first-child {
+    font-size: 15px;
+  }
+
+  .footer-parttwo div p:last-child {
+    font-size: 15px;
+  }
+}
+
+@media(max-width:1024px) {
+  .footer-top {
+    display: block;
+  }
+
+  .footer-top-left,
+  .footer-top-right {
+    width: 100%;
+  }
+
+  .footer-top-right {
+    margin-left: 0;
+  }
+}
+
+@media(max-width:768px) {
+  .footer-top-left {
+    display: block;
+    text-align: center;
+  }
+
+  .footer-partone {
+    width: 100%;
+  }
+
+  .footer-logo,
+  .footer-metamask {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-parttwo div p:first-child,
+  .footer-parttwo div p:last-child {
+    font-size: 23px;
+  }
+
+  .footer-parttwo {
+    margin-top: 50px;
+    width: 100%;
+  }
+
+  .footer-parttwo div {
+    justify-content: center;
+  }
+
+  .bee-count {
+    display: block;
+    margin-left: 0
+  }
+
+  .footermint {
+    padding: 10px 20px;
+  }
+}
+
+@media(max-width:530px) {
+  .footer-top {
+    padding: 50px 0px;
+  }
+
+  .footer-top-left {
+    padding: 40px 20px;
+  }
+
+  .footer-metamask button {
+    font-size: 12px;
+    margin-left: 10px;
+  }
+
+  .footer-top-right {
+    margin-top: 30px;
+    font-size: 15px;
+  }
+
+  .social-group a {
+    font-size: 7px;
+  }
+
+  .social-group li {
+    margin: 0 7px;
+  }
+
+  .exchange div {
+    margin-left: 5px;
+  }
+
+  .footer-contexttwo {
+    margin-left: 15px;
+  }
+}

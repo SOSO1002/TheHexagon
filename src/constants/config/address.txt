@@ -1,0 +1,16 @@
+[develop]
+solidity: 0.8.9
+files: {"Honey.sol", "TheHexagonBee.sol", "TheHexagonStaking.sol"}
+
+[honey test contract]
+address:	0x220e7ee0fa2F7fb86b8aa7341b8aC8d996A99C76
+owner:		0x29c0222C3CBbc8690eb8c043Bf356356eC9E78eC
+
+[Bee   test contract]
+address:    0xF3899bEF23b348BCa9B221E1EAaad8B1eB748F5d
+owner:		0x29c0222C3CBbc8690eb8c043Bf356356eC9E78eC
+
+[staking test contract]
+address:	0xA40Eb313155FA9DDA87591F43aCD11194Ee0a077
+owner:		0x29c0222C3CBbc8690eb8c043Bf356356eC9E78eC
+

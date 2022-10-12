@@ -1,0 +1,19 @@
+.faq-section {
+   background:#272727;
+  padding:100px 0px;
+  background-size: cover;
+  position: relative;
+}
+.faq-title {
+  font-size:60px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.85);
+}
+.faq-container {
+ padding: 46px 0px;
+}
+.faq-coin {
+  position:absolute;
+  bottom: 30px;
+  left:30px;
+}

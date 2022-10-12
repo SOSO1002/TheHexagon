@@ -1,0 +1,40 @@
+.tokens-section {
+  background: linear-gradient(73.44deg, #C8C8C8 49.19%, #B0B0B0 49.2%), #383838;
+background-blend-mode: overlay, normal;
+background-blend-mode: overlay, normal;
+  background-blend-mode: overlay, normal, normal;
+  padding:100px 0px;
+  background-size: cover;
+  height: 900px;
+}
+.tokens-title {
+  font-size: 60px;
+  color:white;
+  text-align: center;
+}
+.tokens-container {
+  margin-top:50px;
+  background-size:contain;
+  background-repeat: no-repeat;
+}
+.tokens-control {
+  width: 80%;
+  margin: 0 auto;
+}
+.tokens-background {
+  position: absolute;
+  width:33%;
+}
+.tokens-background img {
+  width:100%;
+}
+@media (max-width:1300px) {
+  .tokens-section {
+    height: auto;
+  }
+}
+@media(max-width:768px) {
+.tokens-background {
+  width:100%;
+  }
+}

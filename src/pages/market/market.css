@@ -1,0 +1,261 @@
+.market-background {
+  background: url(../../assets/marketplace.jpg);
+  background-size: cover;
+  background-position: left bottom;
+  min-height: 475px;
+  position: relative;
+}
+.market-background h1 {
+  padding:50px 100px;
+  position: absolute;
+  right: 20%;
+  color:black;
+  font-family: 800;
+}
+.market-page {
+  background:#0F0F0E;
+  min-height:50vh;
+}
+.market-top {
+  min-height: 30vh;
+  background-size:cover;
+  background-position: bottom;
+  background-repeat:no-repeat;
+}
+.market-top-container {
+  width: 90%;
+  margin: 0 auto;
+}
+.market-top-control {
+  display: flex;
+  justify-content: center;
+}
+.market-top-control h2 {
+  font-size: 20px;
+}
+.market-top ul {
+  display: flex;
+  justify-content: center;
+  padding: 10px 5px;
+  color: white;
+  border-radius: 20px;
+  border: none;
+  background: #535341a8;
+  position: absolute;
+  bottom: 10px;
+}
+.market-top li {
+  list-style-type: none;
+  padding: 0 25px;
+  border-right: 1px solid #050505;
+}
+.market-top li:last-child {
+  border:none
+}
+.market-top ul li div {
+  display: flex;
+  justify-content: center;
+}
+.market-top span, .market-top img {
+  margin: 0 2px;
+}
+.market-top img {
+  width:16px;
+}
+.market-top span {
+  font-size: 16px;
+}
+
+.market-main-container {
+  width: 90%;
+  margin: 0 auto;
+}
+.market-main-control {
+  padding :20px;
+  /* border : 1px solid grey */
+}
+.market-filter-section{
+  padding: 15px 23px 0px;
+  display: flex;
+  justify-content: space-between;
+}
+.market-filter{
+  color:white;
+  display: flex;
+  justify-content: center;
+}
+.bee-type,.sort-by {
+  display: flex;
+  align-items: center;
+}
+.market-search {
+  color:white;
+  display: flex;
+  justify-content: left;
+}
+.market-filter p, .market-search p {
+  margin: 0 20px;
+  font-size: 18px;
+}
+
+.market-search-control {
+  border:1px solid #817a7a ;
+  display: flex;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 8px;
+  align-items: center;
+}
+.market-search-control svg {
+  font-size: 30px;
+  color: rgb(129, 122, 122);
+}
+.market-main-control input {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: white;
+  outline: none;
+  padding: 0 10px;
+}
+
+.nft-list {
+  margin-top :15px;
+}
+.nft-list-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  color:white;
+  text-align: center;
+}
+.nft-list-control a {
+  color:white;
+  text-decoration: none;
+  width:20%;
+}
+.nft-card {
+  border : 1px solid grey;
+  border-radius: 24px;
+  /* padding:10px 20px; */
+  cursor:pointer;
+  margin:10px;
+  background: #3a3434;
+}
+.nft-card-content {
+  padding: 20px 0px;
+}
+.nft-card h2, .nft-card p ,.nft-card button {
+  margin : 5px 0px
+}
+.nft-card h2 {
+  font-size: 20px;
+  margin:5px 0px
+}
+.nft-card img {
+  width: 100%;
+  border-radius: 15px;
+}
+.nft-card-content div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nft-card button {
+  background:yellow;
+  padding: 0px 20px;
+  border-radius: 10px;
+  border: none;
+}
+.nft-card div img {
+    width: 17px;
+    margin: 0 4px
+} 
+
+@media(max-width:1095px) {
+  .market-main-control input {
+    padding-right: 10px;
+    font-size: 16px;
+  }
+  .market-search-control {
+    padding:5px 10px;
+    justify-content: space-between;
+  }
+  .market-search-control svg{
+    font-size: 17px;
+  }
+  .nft-list-control a{
+    width:25%;
+  }
+  .nft-card h2 {
+    font-size:12px;
+  }
+  .nft-card h2, .nft-card p, .nft-card button {
+    margin: 2px;
+    font-size: 11px;
+  }
+}
+@media(max-width:860px) {
+  .market-filter-section {
+    display: block;
+  }
+  .market-filter {
+    margin-top:20px
+  }
+}
+@media(max-width:768px) {
+  .market-background {
+    background: url(../../assets/marketplace_mb.png);
+    background-size: 100% 100%;
+  }
+  .market-filter p, .market-search p {
+    font-size: 14px;
+  }
+}
+@media(max-width:650px) {
+  .market-background h1 {
+    padding:37px
+  }
+}
+@media(max-width:620px) {
+  .nft-list-control a {
+    width:33%;
+  } 
+  .nft-card div img {
+    width: 10px;
+    margin: 0 0px;
+  }
+}
+
+@media(max-width:496px){
+  .market-filter {
+    display: block;
+  }
+  .market-search-control {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .sort-by {
+    margin-top:20px;
+  }
+  .bee-type, .sort-by {
+    justify-content: space-between;
+  }
+}
+@media(max-width:450px) {
+  .market-top ul {
+    width:375px;
+  }
+  .market-top span {
+    font-size:10px;
+  }
+  .nft-list-control {
+    justify-content: center;
+  }
+  .nft-list-control a {
+    width:80%;
+  }
+  .market-top-control h2 {
+    font-size: 12px;
+  }
+}

@@ -1,0 +1,110 @@
+.about-section {
+  background: linear-gradient(112.87deg, #FFDE99 -39.65%, #F2AA06 -39.46%, #F8AD02 13.54%, #E99600 13.58%);
+  padding: 250px 0px 100px 0px;
+  min-height: 930px;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.about-title {
+  text-align: center;
+  font-size:60px;
+  color: #040404;
+}
+.about-control img {
+  margin: 40px 0;
+   width: 236px;
+  height: 236px;
+   /* -webkit-clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); */
+}
+.about-control img:before,.about-control img:after {
+  box-shadow: 0 0 10px yellow;   
+}
+.about-content-container {
+  width: 55%;
+  margin: 0 auto;
+}
+.about-content {
+  text-align: center;
+  color: white;
+  font-size: 25px;
+  line-height: 37px;
+  width:90%;
+  margin: 35px auto 0px;
+}
+.slide-container {
+  width:58%;
+  margin:0 auto
+}
+.slide-item {
+  display: flex !important;
+  color:white;
+  align-items: center;
+}
+.slide-item img{
+  border-radius: 50%;
+  /* border: 10px solid #F5F5F5; */
+}
+.slide-content {
+  background: rgba(255, 255, 255, 0.85);
+  width:100%;
+  z-index: -1;
+  margin-left:-100px;
+  min-height:427px;
+  padding:60px 96px 107px 178px;
+}
+.slide-item h2 {
+  color: #FF9902;
+  font-size: 50px;
+}
+.slide-item p {
+  font-size: 20px;
+  color:black;
+  line-height: 34px;
+}
+.slide_bg {
+  min-height: 456px;
+  width:75%;
+  background:  #1a1a1a;
+}
+
+@media(max-width:1130px) {
+  .about-content-container {
+    width:90%;
+  }
+  .slide-container {
+    width: 90%;
+  }
+  .slide-content {
+    padding:50px 105px;
+  }
+}
+
+
+@media(max-width:768px) {
+  .slide-item{
+    display: block !important;
+  }
+  .slide-item h2 {
+    font-size: 25px;
+    text-align: center;
+  }
+   .about-control img {
+    width:unset;
+    margin: 0 auto
+  }
+  .slide-content {
+    position: relative;
+    left:0;
+    margin:0;
+  }
+  .slide-item p {
+    margin:0;
+    width:100%
+  }
+}
+  @media(max-width:450px) {
+    .slide-content{
+      padding:50px 30px;
+    }
+  }

@@ -1,0 +1,91 @@
+.stakinginfo-page {
+  background: #0F0F0E;
+  min-height: 50vh;
+}
+.stakinginfo-container {
+  width:90%;
+  margin : 0 auto;
+}
+.arrow {
+  font-size: 25px;
+  font-weight: 800;
+  text-decoration: none;
+  color: white;
+}
+.stakinginfo-img {
+  padding:41px;
+  border: 1px solid #494847;
+  border-radius: 8px;
+  text-align: center;
+}
+.stakinginfo-img img {
+  width:100%;
+}
+.stakinginfo-control {
+  padding:40px 0px
+}
+.stakinginfo-content {
+  display: flex;
+  justify-content: space-evenly;
+}
+.stakinginfo-content-left {
+  width:35%
+}
+.stakinginfo-content-right {
+  width:58%
+}
+.stakinginfo-address {
+  padding: 16px 24px;
+  background: #252525;
+  border-radius: 8px;
+  margin-top:30px;
+}
+.stakinginfo-address:first-child {
+  color:#DEDEDE;
+}
+.stakinginfo-address:last-child {
+  color:white;
+}
+.address-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.right-one {
+  border: 1px solid #494847;
+  border-radius: 8px;
+  padding:32px
+}
+.stakinginfo-content-right button {
+  width: 100%;
+  margin: 20px 0px;
+  padding: 16px 0px;
+  background: #076AFE;
+  border-radius: 8px;
+  color:white;
+  border:none;
+  font-size: 18px;
+}
+.right-two {
+  border: 1px solid #494847;
+  border-radius: 8px;
+  padding:32px;
+  min-height: 200px;
+}
+.right-two p {
+  color:white;
+  font-size:26px;
+  margin:0;
+}
+@media(max-width:800px) {
+  .stakinginfo-content {
+    display: block;
+  }
+  .stakinginfo-content-left,.stakinginfo-content-right {
+    width: 80%;
+    margin: 0 auto;
+  }
+  .stakinginfo-content-right {
+    margin-top: 30px;
+  }
+}

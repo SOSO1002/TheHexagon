@@ -1,0 +1,322 @@
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.9;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
+import "@openzeppelin/contracts/utils/introspection/ERC165Storage.sol";
+
+import "@openzeppelin/contracts/utils/cryptography/MerkleProof.sol";
+
+interface externalInterface {
+    function transferFrom(address from, address to, uint256 amount) external returns(bool);
+    function transfer(address to, uint256 amount) external returns(bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+
+interface IERC2981Royalties {
+    function royaltyInfo(uint256 _tokenId, uint256 _value) external view returns (address _receiver, uint256 _royaltyAmount);
+}
+
+abstract contract ERC2981Base is ERC165Storage, IERC2981Royalties {
+    struct RoyaltyInfo {
+        address recipient;
+        uint24 amount;
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override returns (bool) {
+        return
+            interfaceId == type(IERC2981Royalties).interfaceId ||
+            super.supportsInterface(interfaceId);
+    }
+}
+
+contract TheHexagon is ERC721Enumerable, ERC2981Base, Ownable, Pausable {
+    // NFT URL
+    string baseTokenURI;
+    string baseExtension;
+
+    // Wallet and Token address
+    address public a = 0x8cB60A2Cc0DaeD224c23A443e5c50A70bd3bB6A4; //50%
+    address public b = 0x2F20D2cafaa1692e401791Be811700fb56f0930B; //25% 
+    address public c = 0x19983b1b05Eb4aa0d5d0d35b5E3239C9E7D1e402; //25% 
+    
+    address public constant addrHoneyToken = 0xe781B9ef76ed615916bAC62D69BbFe5946BB1723;
+    externalInterface public honeyContract;
+    uint256 public constant MAX_ENTRIES = 10000;
+    uint256 public constant MAX_QUEEN = 1;
+    uint256 public constant MAX_ARMY = 1111;
+    uint256 public constant MAX_GANG = 2222;
+    uint256 public constant MAX_WORKER = 6666;
+    uint256 public constant KILL_RATE = 1;
+    uint256 public constant MAX_PRESALE_USER = 8;
+    uint256 public constant MAX_PRESALE_TOTAL = 999;
+    uint256 public QUEENS = 0;
+    uint256 public ARMYS = 0;
+    uint256 public GANGS = 0;
+    uint256 public WORKERS = 0;
+    uint256 public DEADS = 0;
+
+    uint256[] private queenIds;
+    uint256[] private armyIds;
+    uint256[] private gangIds;
+    uint256[] private workerIds;
+
+    // Mint prices
+    uint256[6] private PRICES = [
+        0.6 ether,
+        0.8 ether,
+        1 ether,
+        1.2 ether,
+        1.5 ether,
+        2 ether
+    ];
+    uint256 private QUEENMINTPRICE = 500 ether;
+
+    uint256[6] private NUMBERS = [999, 1000, 1000, 1000, 3000, 3001];
+    uint256 public minted; // number of total regular minted nft except revive
+    uint256[MAX_ENTRIES] internal availableIds;
+    uint256[MAX_WORKER] internal deadList;
+
+    mapping(address => uint256) public whitelistMintNumber;
+    bytes32 private root=0x12ebff4e31c38fe3cb4512197aed4067c43dc1a794c436a89f4f2f4af1ca1070; // MerkleTree root
+    uint256 public preSaleTimeStamp = 1645722000; // (Feb 24th, 5pm UTC) 
+    uint256 public pubSaleTimeStamp = 1645808400; // (Feb 25th, 5pm UTC)
+
+    mapping(bytes4 => bool) private _supportedInterfaces;
+    mapping(uint256 => RoyaltyInfo) internal _royalties;
+
+    event RandMint(address _addr, uint256 tokenId);
+    event QueenMint(address _addr, uint256 tokenId);
+
+    constructor() ERC721("TheHexagon Bees", "THB") {
+        honeyContract = externalInterface(addrHoneyToken);
+        _supportedInterfaces[0x80ac58cd] = true;        // _INTERFACE_ID_ERC721
+        _supportedInterfaces[0x780e9d63] = true;        // _INTERFACE_ID_ERC721_ENUMERABLE
+        _supportedInterfaces[0x2a55205a] = true;        // _INTERFACE_ID_ERC2981            Royalties interface
+    }
+
+    function mint(bytes32[] memory _proof, uint256 _amount) external payable {
+        
+        if (isOnPresale()) {
+            require(MerkleProof.verify(_proof, root, keccak256(abi.encodePacked(msg.sender))) == true, "Not on whitelist");
+            require(whitelistMintNumber[msg.sender] + _amount <= MAX_PRESALE_USER, "Whitelist User can buy up to 4 tokens during presale time.");
+            require(minted + _amount <= MAX_PRESALE_TOTAL, "Presale token number exceeds limit");
+            require(msg.value >= _amount * (0.6 ether), "incorrect fund paid");
+
+            for(uint256 idx = 0; idx < _amount; ++idx){
+                whitelistMintNumber[msg.sender]++;
+                _randomMint(msg.sender);
+            }
+            // 50*_amount
+            honeyContract.transfer(msg.sender, _amount * (50 ether));
+
+        }
+        else if (isOnPublicSale()) {
+            require(_amount + minted <= MAX_ENTRIES, "Mint Amount Exceed");
+            uint256 estimatedPrice;
+            uint256 index;
+            for (index = 1; index <= _amount; ++index) {
+                estimatedPrice += getPrice(minted + index);
+            }
+            require(msg.value >= estimatedPrice, "Insufficient Funds");
+            for (uint256 i = 0; i < _amount; ++i) _randomMint(msg.sender);
+        }
+    }
+    function queenMint() external payable {
+        require(isOnPublicSale(), "Sale Has Not Started");
+        require(DEADS > 0, "No Bee to be laid");
+        require(
+            honeyContract.balanceOf(msg.sender) >=
+                QUEENMINTPRICE,
+            "You don't have enough Honey token"
+        );
+        require(
+            queenIds.length > 0 && ownerOf(queenIds[0]) == msg.sender,
+            "You are not queen owner"
+        );
+        honeyContract.transferFrom(
+            msg.sender,
+            a,
+            QUEENMINTPRICE
+        );
+        uint256 rand = uint256(
+            keccak256(
+                abi.encodePacked(
+                    msg.sender,
+                    block.difficulty,
+                    block.timestamp,
+                    DEADS
+                )
+            )
+        ) % DEADS;
+        uint256 reviveId = deadList[rand];
+        _safeMint(msg.sender, reviveId);
+        emit QueenMint(msg.sender, reviveId);
+        deadList[rand] = deadList[--DEADS];
+        workerIds.push(reviveId);
+        ++WORKERS;
+    }
+    function getPrice(uint256 mintNumber) public view returns (uint256) {
+        uint256 index;
+        uint256 sum = NUMBERS[0];
+        for (index = 0; mintNumber > sum; ++index) {
+            sum += NUMBERS[index + 1];
+        }
+        return PRICES[index];
+    }
+    function getCurrentPrice() external view returns (uint256) {
+        require(isOnPublicSale(), "Sale Has Not Started");
+        require(minted < MAX_ENTRIES, "Already Minted All");
+        uint256 prc = getPrice(minted + 1);
+        return prc;
+    }
+    function tokenURI(uint256 tokenId) public view override returns (string memory)
+    {
+        require(_exists(tokenId), "Token Does Not Exist");
+        return
+            string(
+                abi.encodePacked(
+                    baseTokenURI,
+                    Strings.toString(tokenId),
+                    baseExtension
+                )
+            );
+    }
+    function _getNewId() internal returns (uint256 value) {
+        uint256 remaining = MAX_ENTRIES - minted;
+        uint256 rand = uint256(
+            keccak256(
+                abi.encodePacked(
+                    msg.sender,
+                    block.difficulty,
+                    block.timestamp,
+                    remaining
+                )
+            )
+        ) % remaining;
+        value = 0;
+        // if array value exists, use, otherwise, use generated random value
+        if (availableIds[rand] != 0) value = availableIds[rand];
+        else value = rand;
+        // store remaining - 1 in used ID to create mapping
+        if (availableIds[remaining - 1] == 0)
+            availableIds[rand] = remaining - 1;
+        else availableIds[rand] = availableIds[remaining - 1];
+        value += 1;
+    }
+    function set(address _A, address _B, address _C) external onlyOwner {a = _A; b = _B; c = _C;}
+    
+    function _randomMint(address _addr) internal {
+        uint256 tokenId = _getNewId();
+        _safeMint(_addr, tokenId);
+        _setTokenRoyalty(tokenId, _addr , 300);
+        emit RandMint(_addr, tokenId);
+        if (tokenId <= MAX_WORKER) {
+            ++WORKERS;
+            workerIds.push(tokenId);
+        } else if (tokenId <= MAX_WORKER + MAX_GANG) {
+            ++GANGS;
+            gangIds.push(tokenId);
+        } else if (tokenId <= MAX_WORKER + MAX_GANG + MAX_ARMY) {
+            ++ARMYS;
+            armyIds.push(tokenId);
+        } else {
+            ++QUEENS;
+            queenIds.push(tokenId);
+        }
+        ++minted;
+    }
+
+    function isOnPresale() public view returns(bool) {
+        if (block.timestamp >= preSaleTimeStamp && block.timestamp < pubSaleTimeStamp) return true;
+        else return false;
+    }
+
+    function isOnPublicSale() public view returns(bool) {
+        if (block.timestamp >= pubSaleTimeStamp) return true;
+        else return false;
+    }
+
+    function _baseURI() internal view override returns (string memory) {
+        return baseTokenURI;
+    }
+    
+    function giveAway(uint256 _amount) external onlyOwner {
+        for (uint256 i = 0; i < _amount; ++i) {
+            _randomMint(a);
+        }
+    }
+
+    function royaltyInfo(uint256 tokenId, uint256 value) external view override
+        returns (address receiver, uint256 royaltyAmount)
+    {
+        RoyaltyInfo memory royalties = _royalties[tokenId];
+        receiver = royalties.recipient;
+        royaltyAmount = (value * royalties.amount) / 10000;
+    }    
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721Enumerable, ERC2981Base) returns (bool) {
+        return interfaceId == type(ERC2981Base).interfaceId ||
+            super.supportsInterface(interfaceId) || 
+            _supportedInterfaces[interfaceId];
+    }
+
+    // Value is in basis points so 10000 = 100% , 100 = 1% etc
+    function _setTokenRoyalty( uint256 tokenId, address recipient, uint256 value ) internal {
+        require(value <= 10000, 'ERC2981Royalties: Too high');
+        _royalties[tokenId] = RoyaltyInfo(recipient, uint24(value));
+    }
+
+    function setSaleTimeStamp(uint256 _preSaleTimeStamp, uint256 _pubSaleTimeStamp) public onlyOwner {
+        preSaleTimeStamp = _preSaleTimeStamp;
+        pubSaleTimeStamp = _pubSaleTimeStamp;
+    }
+
+    function setRoot(bytes32 _newRoot) external onlyOwner {
+        root = _newRoot;
+    }
+
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseTokenURI = _newBaseURI;
+    }
+
+    function setBaseExtension(string memory _newBaseExtension) public onlyOwner {
+        baseExtension = _newBaseExtension;
+    }
+
+    function attack() external onlyOwner {
+        uint256 number = WORKERS * KILL_RATE / 100;
+        uint256 index;
+        for (index = 0; index < number; ++index) {
+            uint256 curId;
+            curId =
+                uint256(
+                    keccak256(
+                        abi.encodePacked(
+                            msg.sender,
+                            block.difficulty,
+                            block.timestamp,
+                            WORKERS
+                        )
+                    )
+                ) %
+                WORKERS;
+            _burn(workerIds[curId]);
+            deadList[DEADS++] = workerIds[curId];
+            workerIds[curId] = workerIds[--WORKERS];
+            workerIds.pop();
+        }
+    }
+
+    function withdrawFunds(uint256 _amount) external onlyOwner {
+        payable(a).transfer(_amount * 50 / 100);
+        payable(b).transfer(_amount * 25 / 100);
+        payable(c).transfer(_amount * 25 / 100);
+    }
+
+    function withdraw(address _to, uint256 _amount) external onlyOwner {
+        honeyContract.transfer(_to, _amount);
+    }
+}

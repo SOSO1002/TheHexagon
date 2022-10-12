@@ -1,0 +1,115 @@
+.marketinfo-page {
+  background:#0F0F0E;
+  min-height:100vh;
+  padding:50px 0px;
+}
+.marketinfo-container {
+  width:80%;
+  margin: 0 auto;
+}
+.marketinfo-top {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+.top-right h3 {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  color:#FF9F1C;
+}
+.marketinfo-left,.marketinfo-right {
+  width:50%
+}
+.marketinfo-left img {
+  width: 70%;
+  border-radius: 12px;
+}
+.marketinfo-right {
+  color:white
+}
+.marketinfo-price {
+  /* text-align: center; */
+  border:1px solid #FF9F1C;
+  border-radius: 10px;
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+}
+.current-price {
+  font-size: 1.8rem;
+}
+.price-value {
+  display: flex;
+  align-items: center;
+}
+.price-value p {
+  margin:0;
+  font-size: 20px;
+  margin-left:40px;
+}
+.price-value svg {
+  color: #FF9F1C;
+  font-size: 25px;
+}
+.marketaccordion {
+  margin-top: 20px;
+}
+.buy-bid {
+  margin-top:15px;
+  text-align: center;
+}
+.buy-bid button {
+  background: transparent;
+    padding: 5px 40px;
+    margin: 0 5px;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 20px;
+    border: 1px solid #FF9F1C;
+    color: #FF9F1C;
+}
+.listed-by {
+  font-size: 20px;
+}
+@media(max-width:1070px) {
+  .marketinfo-top {
+    display: block;
+  }
+  .top-left {
+    text-align: center;
+  }
+  .marketinfo-left, .marketinfo-right {
+    width:100%;
+  }
+}
+
+@media(max-width:450px) {
+   .buy-bid button {
+    font-size: 14px ;
+  }
+  .current-price {
+    font-size:17px;
+  }
+  .top-right h3 {
+    font-size: 22px;
+    margin-top: 20px;
+  }
+  .listed-by {
+    font-size: 14px;
+  }
+  .price-value svg {
+    font-size: 14px;
+  }
+  .price-value p {
+    font-size: 14px;
+    margin-left: 20px;
+  }
+  .price-value img {
+    width: 12px !important;
+    margin-left: 2px !important;
+  }
+  .market-filter p, .market-search p {
+    font-size: 12px;
+    margin: 0 12px
+  }
+}
